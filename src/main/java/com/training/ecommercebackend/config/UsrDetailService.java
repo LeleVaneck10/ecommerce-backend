@@ -56,5 +56,4 @@ public class UsrDetailService {
         return new BCryptPasswordEncoder();
     }
 
-
 }

@@ -1,8 +1,6 @@
 package com.training.ecommercebackend.config;
 
-import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +26,7 @@ public class UserSecurityAppConfig {
     http
             .authorizeHttpRequests(authorize ->
                     authorize
-                            .requestMatchers("").permitAll()
+                            .requestMatchers("/api/auth/**").permitAll()
                             .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

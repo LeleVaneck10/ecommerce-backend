@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthenticateController {
 
     private AuthService service;
 
-    public AuthController(AuthService authService) {
+    public AuthenticateController(AuthService authService) {
         this.service = service;
     }
 

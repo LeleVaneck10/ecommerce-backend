@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
@@ -13,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Service
 public class JwtService {
-
 
     // This key is used to sign and validate JWTs. It's crucial to keep this secret key confidential.
     private static final String SECRET_KEY= "2VqXOQoi5egrXQhTSdPyOUxbKZuLjFl7xz63eZoJlvdMXCPzp+nGJUND0A9PEmMbxpiSyhrW7OYdKm/fRqMmN62W263ICR81XMp16Y8WLI8=";
@@ -87,8 +88,6 @@ public class JwtService {
         byte[] keyByte = Decoders.BASE64.decode(SECRET_KEY) ;
         return Keys.hmacShaKeyFor(keyByte);
     }
-
-
 
 
 }

@@ -1,6 +1,6 @@
 package com.training.ecommercebackend.repository;
 
-import com.training.ecommercebackend.user.User;
+import com.training.ecommercebackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

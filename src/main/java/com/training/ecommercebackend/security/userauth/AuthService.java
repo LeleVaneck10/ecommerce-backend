@@ -1,9 +1,9 @@
-package com.training.ecommercebackend.userauth;
+package com.training.ecommercebackend.security.userauth;
 
-import com.training.ecommercebackend.config.JwtService;
+import com.training.ecommercebackend.security.config.JwtService;
 import com.training.ecommercebackend.repository.DaoUserRepository;
-import com.training.ecommercebackend.user.Role;
-import com.training.ecommercebackend.user.User;
+import com.training.ecommercebackend.model.Role;
+import com.training.ecommercebackend.model.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

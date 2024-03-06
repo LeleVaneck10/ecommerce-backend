@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.config;
+package com.training.ecommercebackend.security.config;
 
 import com.training.ecommercebackend.repository.DaoUserRepository;
 import org.springframework.context.annotation.Bean;

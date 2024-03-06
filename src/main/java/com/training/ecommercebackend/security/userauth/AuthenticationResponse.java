@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.userauth;
+package com.training.ecommercebackend.security.userauth;
 
 public class  AuthenticationResponse {
     private String token;

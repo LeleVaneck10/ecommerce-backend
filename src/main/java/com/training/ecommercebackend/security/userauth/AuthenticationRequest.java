@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.userauth;
+package com.training.ecommercebackend.security.userauth;
 
 public class AuthenticationRequest {
     private String Email;

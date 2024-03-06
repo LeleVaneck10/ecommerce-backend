@@ -1,8 +1,6 @@
-package com.training.ecommercebackend.user;
+package com.training.ecommercebackend.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.user;
+package com.training.ecommercebackend.model;
 
 public enum Role {
     USER,

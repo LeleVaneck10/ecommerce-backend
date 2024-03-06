@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.userauth;
+package com.training.ecommercebackend.security.userauth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

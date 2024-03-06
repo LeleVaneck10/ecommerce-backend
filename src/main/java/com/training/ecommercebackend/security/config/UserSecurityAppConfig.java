@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.config;
+package com.training.ecommercebackend.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

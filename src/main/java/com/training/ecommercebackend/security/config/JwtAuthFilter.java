@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.config;
+package com.training.ecommercebackend.security.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

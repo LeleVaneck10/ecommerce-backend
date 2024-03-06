@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.config;
+package com.training.ecommercebackend.security.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

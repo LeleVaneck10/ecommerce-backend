@@ -1,11 +1,13 @@
 package com.training.ecommercebackend.security.userauth;
 
+
 public class  AuthenticationResponse {
     private String token;
 
     public AuthenticationResponse() {}
 
     public AuthenticationResponse(String token) {
+
         this.token = token;
     }
 

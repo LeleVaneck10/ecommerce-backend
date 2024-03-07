@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,16 +53,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         //extract a userEmail to jwt token
         userEmail = jwtService.extractUserName(jwt);
 
-        //check if we have our userEmail and if user is not already authentificated in the security context
+/*---------------------------****** JWT VALIDATION PROCESS*****---------------------------*/
+
+        //check if we have our userEmail and if user is not already authenticated in the security context
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
 
-            //loads the full user details from the databas using the UserDetailsService
+            //loads the full user details from the database using the UserDetailsService
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             //check if the token is still valid or not and validates it
             if(jwtService.isTokenValid(jwt,userDetails)){
 
-                //if token is  valid create our authentification Token for updating the security context
+                //if token is  valid create our authentication Token for updating the security context
                 //add userDetails,credentials and authorities
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -69,9 +72,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         userDetails.getAuthorities()
                 );
 
-                //adds  some additional authentification details to the token
+                //adds  some additional authentication details to the token
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
 
                 //update our security context
                 SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -79,7 +81,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         }
 
-
+        filterChain.doFilter(request,response);
 
     }
 }

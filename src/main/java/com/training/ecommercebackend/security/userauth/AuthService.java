@@ -1,9 +1,10 @@
 package com.training.ecommercebackend.security.userauth;
 
-import com.training.ecommercebackend.security.config.JwtService;
-import com.training.ecommercebackend.repository.DaoUserRepository;
 import com.training.ecommercebackend.model.Role;
 import com.training.ecommercebackend.model.User;
+import com.training.ecommercebackend.repository.DaoUserRepository;
+import com.training.ecommercebackend.security.config.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,13 +20,19 @@ public class AuthService {
     private final DaoUserRepository daoUserRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
 
-    public AuthService(DaoUserRepository daoUserRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
+    public AuthService(
+                        DaoUserRepository daoUserRepository,
+                        JwtService jwtService,
+                        PasswordEncoder passwordEncoder,
+                        AuthenticationManager authenticationManager) {
+
         this.daoUserRepository = daoUserRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -36,7 +43,7 @@ public class AuthService {
                 request.getLastName(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                Role.USER
+                request.getRole()
         );
 
         daoUserRepository.save(user);
@@ -46,16 +53,19 @@ public class AuthService {
         return new AuthenticationResponse(jwtToken);
     }
 
+
 // this methode help us to authenticate user based on their userName and password
     public AuthenticationResponse logIn(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         ));
-        var user = daoUserRepository.findByEmail(request.getEmail()).orElseThrow();
+
+        User user = daoUserRepository.findByEmail(request.getEmail()).orElseThrow();
 
         String jwtToken = jwtService.generateToken(user);
 
         return new AuthenticationResponse(jwtToken);
+
     }
 }

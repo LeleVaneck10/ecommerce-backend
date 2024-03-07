@@ -10,27 +10,25 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User() {}
 
-    public User(Integer id, String firstName, String lastName, String email, String password, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
+    public User() {}
 
     public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
@@ -39,6 +37,7 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
     }
+
 
     public Integer getId() {
         return id;
@@ -83,6 +82,7 @@ public class User implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

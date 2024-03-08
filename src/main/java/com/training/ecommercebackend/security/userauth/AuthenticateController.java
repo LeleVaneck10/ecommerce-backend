@@ -12,7 +12,7 @@ public class AuthenticateController {
 
     private AuthService service;
 
-    public AuthenticateController(AuthService authService) {
+    public AuthenticateController(AuthService service) {
         this.service = service;
     }
 

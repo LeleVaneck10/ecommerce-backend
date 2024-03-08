@@ -1,8 +1,7 @@
 package com.training.ecommercebackend.security.userauth;
 
 import com.training.ecommercebackend.security.config.JwtService;
-import com.training.ecommercebackend.repository.DaoUserRepository;
-import com.training.ecommercebackend.model.Role;
+import com.training.ecommercebackend.repository.UserRepository;
 import com.training.ecommercebackend.model.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,20 +11,21 @@ import org.springframework.stereotype.Service;
 
 
 
-
 @Service
 public class AuthService {
 
-    private final DaoUserRepository daoUserRepository;
+    private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
 
-    public AuthService(DaoUserRepository daoUserRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
-        this.daoUserRepository = daoUserRepository;
+    public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+
+        this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -36,10 +36,10 @@ public class AuthService {
                 request.getLastName(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                Role.USER
+                request.getRole()
         );
 
-        daoUserRepository.save(user);
+        userRepository.save(user);
 
         String jwtToken = jwtService.generateToken(user);
 
@@ -52,7 +52,7 @@ public class AuthService {
                 request.getEmail(),
                 request.getPassword()
         ));
-        var user = daoUserRepository.findByEmail(request.getEmail()).orElseThrow();
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
         String jwtToken = jwtService.generateToken(user);
 

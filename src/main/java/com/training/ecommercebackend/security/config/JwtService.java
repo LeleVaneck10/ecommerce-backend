@@ -1,5 +1,6 @@
 package com.training.ecommercebackend.security.config;
 
+import com.training.ecommercebackend.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,49 +19,59 @@ import java.util.function.Function;
 public class JwtService {
 
     // This key is used to sign and validate JWTs. It's crucial to keep this secret key confidential.
-    private static final String SECRET_KEY= "2VqXOQoi5egrXQhTSdPyOUxbKZuLjFl7xz63eZoJlvdMXCPzp+nGJUND0A9PEmMbxpiSyhrW7OYdKm/fRqMmN62W263ICR81XMp16Y8WLI8=";
+    private static final String SECRET_KEY= "fcfe740d1519d42386e320b1f5c45cabf15925d30bb508921c258543a6e5f2b1";
 
 
 
     // This method retrieves the username embedded within the JWT token.
     public String extractUserName(String token) {
-        return extractClaims(token, Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
 
     //this method extracts a specific claim value based on the provided function
-    public <T> T extractClaims(String token, Function<Claims,T> claimsResolver){
-        final Claims claims = extractallClaims(token);
+    public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
+        final Claims claims = extractAllClaims(token);
 
         return claimsResolver.apply(claims);
     }
 
     //extracted all Claims
-    private Claims extractallClaims(String token){
+    private Claims extractAllClaims(String token){
         return Jwts
                 .parserBuilder()
-                .setSigningKey(getSignInKey())
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
+    // this method is use to create a singing part of  jwt witch is use to ensure that
+    //the sender of a jwt is who claims to be and ensure that the message  does't change along the way
+    private Key getSigningKey() {
+
+        byte[] keyByte = Decoders.BASE64.decode(SECRET_KEY) ;
+        return Keys.hmacShaKeyFor(keyByte);
+    }
+
 
     // This method creates a JWT for a given user based on their details username.
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(User userDetails){
         return generateToken( new HashMap<>(),userDetails);
     }
 
 
     //generate the token out of extractClaims and userDetails  including additional custom claims in the JWT along with user details.
-    public  String generateToken(Map<String,Object> extractClaims , UserDetails userDetails){
+    public  String generateToken(Map<String,Object> extractClaims , User userDetails){
 
         return Jwts
                 .builder()
                 .setClaims(extractClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getFirstName())
+                .setSubject(userDetails.getLastName())
+                .setSubject(userDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))//validityDay = 24hours + 1000ms
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
 
     }
@@ -80,14 +91,10 @@ public class JwtService {
     }
 
     private Date extraExpiration(String token) {
-        return extractClaims(token,Claims::getExpiration);
+        return extractClaim(token,Claims::getExpiration);
     }
 
-    private Key getSignInKey() {
 
-        byte[] keyByte = Decoders.BASE64.decode(SECRET_KEY) ;
-        return Keys.hmacShaKeyFor(keyByte);
-    }
 
 
 }

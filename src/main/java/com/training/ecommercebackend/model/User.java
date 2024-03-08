@@ -18,19 +18,27 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String password;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public User() {}
 
-    public User(Integer id, String firstName, String lastName, String email, String password, Role role) {
+    public User(Integer id, String firstName, String lastName, String email, String password, Address address,List<Order> orders, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.address = address;
+        this.orders = orders;
         this.role = role;
     }
+
 
     public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
@@ -39,7 +47,6 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
     }
-
     public Integer getId() {
         return id;
     }
@@ -75,7 +82,18 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    public List<Order> getOrders() {
+        return orders;
+    }
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
     public Role getRole() {
         return role;
     }

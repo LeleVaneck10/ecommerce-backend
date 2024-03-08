@@ -22,6 +22,7 @@ public class Order {
     public Order() {
     }
 
+
     public Order(Long id, User user, List<OrderItem> orderItems, BigDecimal total, LocalDate date) {
         this.id = id;
         this.user = user;

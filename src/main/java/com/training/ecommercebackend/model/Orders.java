@@ -6,24 +6,24 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 @Entity
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
     @Column(nullable = false)
     private BigDecimal total;
     private LocalDate date;
 
-    public Order() {
+    public Orders() {
     }
 
 
-    public Order(Long id, User user, List<OrderItem> orderItems, BigDecimal total, LocalDate date) {
+    public Orders(Long id, User user, List<OrderItem> orderItems, BigDecimal total, LocalDate date) {
         this.id = id;
         this.user = user;
         this.orderItems = orderItems;

@@ -22,13 +22,13 @@ public class User implements UserDetails {
     @JoinColumn(name = "address_id")
     private Address address;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    private List<Orders> orders;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public User() {}
 
-    public User(Integer id, String firstName, String lastName, String email, String password, Address address,List<Order> orders, Role role) {
+    public User(Integer id, String firstName, String lastName, String email, String password, Address address, List<Orders> orders, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -88,10 +88,10 @@ public class User implements UserDetails {
     public void setAddress(Address address) {
         this.address = address;
     }
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
     public Role getRole() {

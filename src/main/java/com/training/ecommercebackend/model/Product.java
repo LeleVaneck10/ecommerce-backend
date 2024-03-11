@@ -20,22 +20,18 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_attribute")
-    private Set<Attribute> attributes;
     @OneToMany(mappedBy = "product")
     private List<Image> images;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, BigDecimal price, Category category, Set<Attribute> attributes, List<Image> images) {
+    public Product(Long id, String name, String description, BigDecimal price, Category category, List<Image> images) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.attributes = attributes;
         this.images = images;
     }
 
@@ -78,15 +74,6 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-    public Set<Attribute> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Set<Attribute> attributes) {
-        this.attributes = attributes;
-    }
-
     public List<Image> getImages() {
         return images;
     }

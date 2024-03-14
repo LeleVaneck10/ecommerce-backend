@@ -24,6 +24,12 @@ public class Image {
         this.description = description;
     }
 
+    public Image(Product product, String url, String description) {
+        this.product = product;
+        this.url = url;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }

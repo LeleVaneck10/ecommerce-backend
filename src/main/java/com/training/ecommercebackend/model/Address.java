@@ -28,6 +28,14 @@ public class Address {
         this.country = country;
     }
 
+    public Address(User user, String street, String city, String zipCode, String country) {
+        this.user = user;
+        this.street = street;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.country = country;
+    }
+
     public Long getId() {
         return id;
     }

@@ -31,6 +31,13 @@ public class Orders {
         this.date = date;
     }
 
+    public Orders(User user, List<OrderItem> orderItems, BigDecimal total, LocalDate date) {
+        this.user = user;
+        this.orderItems = orderItems;
+        this.total = total;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }

@@ -27,6 +27,13 @@ public class Category {
         this.products = products;
     }
 
+    public Category(String name, String description, String imageUrl, List<Product> products) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.products = products;
+    }
+
     public Long getId() {
         return id;
     }

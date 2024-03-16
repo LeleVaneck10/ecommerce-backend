@@ -1,6 +1,7 @@
 package com.training.ecommercebackend.model;
 
 import jakarta.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,30 +12,32 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(name = "name",nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name = "description",nullable = false)
     private String description;
-    @Column(nullable = false)
+    @Column(name = "price",nullable = false)
     private BigDecimal price;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    @OneToMany(mappedBy = "product")
-    private List<Image> images;
+
+    @Column(name = "imagePath")
+    private String imagePath;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, BigDecimal price, Category category, List<Image> images) {
+    public Product(Long id, String name, String description, BigDecimal price, Category category,String imagePath) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.images = images;
+        this.imagePath = imagePath;
     }
 
+<<<<<<< HEAD
     public Product(String name, String description, BigDecimal price, Category category, List<Image> images) {
         this.name = name;
         this.description = description;
@@ -42,6 +45,9 @@ public class Product {
         this.category = category;
         this.images = images;
     }
+=======
+
+>>>>>>> 297c0ae ( add product with the image)
 
     public Long getId() {
         return id;
@@ -82,11 +88,12 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-    public List<Image> getImages() {
-        return images;
+
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

@@ -1,6 +1,6 @@
 package com.training.ecommercebackend.service;
 
-import com.training.ecommercebackend.exeptions.ProductNotFoundExeption;
+import com.training.ecommercebackend.exceptions.ProductNotFoundExeption;
 import com.training.ecommercebackend.model.Product;
 import com.training.ecommercebackend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

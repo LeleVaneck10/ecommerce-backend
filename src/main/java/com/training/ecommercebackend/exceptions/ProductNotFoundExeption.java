@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.exeptions;
+package com.training.ecommercebackend.exceptions;
 
 public class ProductNotFoundExeption extends RuntimeException{
 

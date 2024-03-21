@@ -1,9 +1,8 @@
 package com.training.ecommercebackend.controller;
 
-import com.training.ecommercebackend.exeptions.ProductNotFoundExeption;
+import com.training.ecommercebackend.exceptions.ProductNotFoundExeption;
 import com.training.ecommercebackend.model.Category;
 import com.training.ecommercebackend.model.Product;
-import com.training.ecommercebackend.security.userauth.AuthService;
 import com.training.ecommercebackend.service.CategoryService;
 import com.training.ecommercebackend.service.ProductService;
 import com.training.ecommercebackend.util.ImageUtil;

@@ -31,7 +31,7 @@ public class UserSecurityAppConfig {
             .authorizeHttpRequests(authorize ->
                     authorize
                             .requestMatchers("/api/**").permitAll()
-                            .requestMatchers(HttpMethod.POST,"/api/ecommerce/**").permitAll()
+                            .requestMatchers("/api/ecommerce/**").permitAll()
                             .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

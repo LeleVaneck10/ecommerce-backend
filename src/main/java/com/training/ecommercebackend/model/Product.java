@@ -1,11 +1,10 @@
 package com.training.ecommercebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Product {
@@ -18,7 +17,8 @@ public class Product {
     private String description;
     @Column(name = "price",nullable = false)
     private BigDecimal price;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -81,6 +81,7 @@ public class Product {
         this.price = price;
     }
 
+    @JsonIgnore
     public Category getCategory() {
         return category;
     }

@@ -1,4 +1,4 @@
-package com.training.ecommercebackend.controller;
+package com.training.ecommercebackend.controller.ProductController;
 
 import com.training.ecommercebackend.exceptions.ProductNotFoundExeption;
 import com.training.ecommercebackend.model.Category;
@@ -7,6 +7,8 @@ import com.training.ecommercebackend.service.CategoryService;
 import com.training.ecommercebackend.service.ProductService;
 import com.training.ecommercebackend.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,52 +31,54 @@ public class ProductController {
     }
 
     @PostMapping("/saveProduct")
-    public Product saveProduct(@RequestParam("name") String name,
-                              @RequestParam("description") String description,
-                              @RequestParam("category") Long categoryId,
-                              @RequestParam("price") BigDecimal price,
-                              @RequestParam("file") MultipartFile imageFile) throws IOException
+    public ResponseEntity<String> saveProduct(
+//                              @RequestParam("name") String name,
+//                              @RequestParam("description") String description,
+//                              @RequestParam("category") Long categoryId,
+//                              @RequestParam("price") BigDecimal price,
+//                              @RequestParam("file") MultipartFile imageFile
+                                @RequestBody RequestProduct request
+                            ) throws IOException
     {
         String imagePath = null;
+        MultipartFile imageFile = request.getFile();
 
         Product product = new Product();
 
         Optional<Category> category ;
 
-        category = categoryService.findById(categoryId);
+        category = categoryService.findById(request.getCategory());
 
 
         if(category.isPresent()){
 
-            if (imageFile != null && !imageFile.isEmpty()) {
+            if ((imageFile != null) && (!imageFile.isEmpty())) {
+
                 imagePath = ImageUtil.saveImage(imageFile);
             }
 
-            product.setName(name);
-            product.setDescription(description);
+            product.setName(request.getName());
+            product.setDescription(request.getDesription());
             product.setCategory(category.get());
-            product.setPrice(price);
+            product.setPrice(request.getPrice());
             product.setImagePath(imagePath);
 
         }
 
-        Category theCategory = category.get();
-        theCategory.addProduct(product);
+        category.get().addProduct(product);
 
-        return  productService.saveProduct(product);
+        productService.saveProduct(product);
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body("product inserted successfully");
     }
 
     @GetMapping("/findProduct/{id}")
-    public Product findProductById(@PathVariable Long id){
+    public ResponseEntity<ResponseProduct> findProductById(@PathVariable Long id){
 
-        Optional<Product> product = Optional.ofNullable(productService.findById(id));
-        Product theProduct = product.get();
+        return ResponseEntity.ok(productService.findById(id));
 
-        if(product.isEmpty()){
-            throw  new ProductNotFoundExeption("NOT FOUND PRODUCT : "+theProduct);
-        }
-        return theProduct;
     }
+
 
 
 }

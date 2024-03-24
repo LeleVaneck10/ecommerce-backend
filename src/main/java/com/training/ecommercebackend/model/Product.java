@@ -81,7 +81,6 @@ public class Product {
         this.price = price;
     }
 
-    @JsonIgnore
     public Category getCategory() {
         return category;
     }

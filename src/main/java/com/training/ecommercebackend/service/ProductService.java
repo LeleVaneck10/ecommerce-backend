@@ -4,9 +4,11 @@ import com.training.ecommercebackend.controller.ProductController.ResponseProduc
 import com.training.ecommercebackend.exceptions.ProductNotFoundExeption;
 import com.training.ecommercebackend.model.Product;
 import com.training.ecommercebackend.repository.ProductRepository;
+import com.training.ecommercebackend.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -35,12 +37,26 @@ public class ProductService {
             theProduct.setPrice(product.get().getPrice());
             theProduct.setImagePath(product.get().getImagePath());
             theProduct.setCategory(product.get().getCategory().getName());
-
         }
         else {
             throw new ProductNotFoundExeption(" PRODUCT witch the "+id+" NOT FOUND !");
         }
 
         return theProduct;
+    }
+
+    public  void deleteProductById( Long id) throws IOException , ProductNotFoundExeption{
+
+        Optional<Product> product = productRepository.findById(id);
+
+        if (product.isPresent()){
+
+            ImageUtil.deleteFile(product.get().getImagePath());
+            productRepository.delete(product.get());
+        }
+        else {
+            throw new ProductNotFoundExeption("product not found");
+        }
+
     }
 }

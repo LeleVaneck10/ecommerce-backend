@@ -32,22 +32,22 @@ public class ProductController {
 
     @PostMapping("/saveProduct")
     public ResponseEntity<String> saveProduct(
-//                              @RequestParam("name") String name,
-//                              @RequestParam("description") String description,
-//                              @RequestParam("category") Long categoryId,
-//                              @RequestParam("price") BigDecimal price,
-//                              @RequestParam("file") MultipartFile imageFile
-                                @RequestBody RequestProduct request
+                              @RequestParam("name") String name,
+                              @RequestParam("description") String description,
+                              @RequestParam("category") Long categoryId,
+                              @RequestParam("price") BigDecimal price,
+                              @RequestParam("file") MultipartFile imageFile
+
                             ) throws IOException
     {
         String imagePath = null;
-        MultipartFile imageFile = request.getFile();
+
 
         Product product = new Product();
 
         Optional<Category> category ;
 
-        category = categoryService.findById(request.getCategory());
+        category = categoryService.findById(categoryId);
 
 
         if(category.isPresent()){
@@ -57,10 +57,10 @@ public class ProductController {
                 imagePath = ImageUtil.saveImage(imageFile);
             }
 
-            product.setName(request.getName());
-            product.setDescription(request.getDesription());
+            product.setName(name);
+            product.setDescription(description);
             product.setCategory(category.get());
-            product.setPrice(request.getPrice());
+            product.setPrice(price);
             product.setImagePath(imagePath);
 
         }
@@ -77,6 +77,16 @@ public class ProductController {
 
         return ResponseEntity.ok(productService.findById(id));
 
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) throws IOException {
+
+        productService.deleteProductById(id);
+
+        return  ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(" product with "+id+" successfully DELETED ! ");
     }
 
 

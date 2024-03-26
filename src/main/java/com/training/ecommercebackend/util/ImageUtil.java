@@ -56,6 +56,18 @@ public class ImageUtil {
         return extension;
     }
 
+    public static void deleteFile(String imagePath) throws IOException {
+
+        Path path = Paths.get(imagePath);
+
+        if(Files.exists(path)){
+            Files.delete(path);
+        }else {
+           throw new IOException(" Image not found");
+        }
+
+    }
+
 }
 
 

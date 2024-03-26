@@ -21,13 +21,12 @@ import java.util.Optional;
 public class ProductController {
 
     private ProductService productService;
-    private CategoryService categoryService;
 
 
     @Autowired
-    public ProductController(ProductService productService,CategoryService categoryService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.categoryService = categoryService;
+
     }
 
     @PostMapping("/saveProduct")
@@ -40,36 +39,37 @@ public class ProductController {
 
                             ) throws IOException
     {
-        String imagePath = null;
+
+        //String imagePath = null;
+       // Product product = new Product();
+
+//        Optional<Category> category ;
+//        category = categoryService.findById(categoryId);
 
 
-        Product product = new Product();
+//        if(category.isPresent()){
+//
+//            if ((imageFile != null) && (!imageFile.isEmpty())) {
+//
+//                imagePath = ImageUtil.saveImage(imageFile);
+//            }
+//
+//            product.setName(name);
+//            product.setDescription(description);
+//            product.setCategory(category.get());
+//            product.setPrice(price);
+//            product.setImagePath(imagePath);
+//
+//        }
 
-        Optional<Category> category ;
+        //category.get().addProduct(product);
 
-        category = categoryService.findById(categoryId);
+       //productService.saveProduct(product);
 
-
-        if(category.isPresent()){
-
-            if ((imageFile != null) && (!imageFile.isEmpty())) {
-
-                imagePath = ImageUtil.saveImage(imageFile);
-            }
-
-            product.setName(name);
-            product.setDescription(description);
-            product.setCategory(category.get());
-            product.setPrice(price);
-            product.setImagePath(imagePath);
-
-        }
-
-        category.get().addProduct(product);
-
-        productService.saveProduct(product);
+        productService.saveProduct(name,description,categoryId,price,imageFile);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body("product inserted successfully");
+
     }
 
     @GetMapping("/findProduct/{id}")
@@ -85,8 +85,9 @@ public class ProductController {
         productService.deleteProductById(id);
 
         return  ResponseEntity
-                .status(HttpStatus.FOUND)
+                .status(HttpStatus.OK)
                 .body(" product with "+id+" successfully DELETED ! ");
+
     }
 
 

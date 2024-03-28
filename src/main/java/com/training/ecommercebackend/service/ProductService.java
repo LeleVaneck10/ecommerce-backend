@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,11 +57,13 @@ public class ProductService {
             product.setPrice(price);
             product.setImagePath(imagePath);
 
+            theCategory.get().addProduct(product);
+
+            productRepository.save(product);
+
+        }else{
+            throw new ProductNotFoundExeption("saved fall category with "+categoryId+" not found !");
         }
-
-        theCategory.get().addProduct(product);
-
-        productRepository.save(product);
 
 
     }
@@ -103,5 +106,38 @@ public class ProductService {
             throw new ProductNotFoundExeption("product with the id: "+id+" not found !");
         }
 
+    }
+
+    public void updateProduct() {
+        
+    }
+
+    public List<ResponseProduct> getAllProduct() throws ProductNotFoundExeption{
+
+       List<Product> products = productRepository.findAll();
+
+       ResponseProduct responseProduct  = new ResponseProduct();
+
+       List<ResponseProduct> theProducts = null ;
+
+       if (!products.isEmpty()){
+
+           for (Product temp : products){
+
+               responseProduct.setName(temp.getName());
+               responseProduct.setDescription(temp.getDescription());
+               responseProduct.setPrice(temp.getPrice());
+               responseProduct.setCategory(temp.getCategory().getName());
+               responseProduct.setImagePath(temp.getImagePath());
+
+               theProducts.add(responseProduct);
+           }
+
+       }else{
+           throw new ProductNotFoundExeption("product not found !");
+
+       }
+
+       return  theProducts;
     }
 }

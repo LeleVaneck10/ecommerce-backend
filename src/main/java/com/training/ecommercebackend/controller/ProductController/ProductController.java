@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,37 +41,12 @@ public class ProductController {
                             ) throws IOException
     {
 
-        //String imagePath = null;
-       // Product product = new Product();
-
-//        Optional<Category> category ;
-//        category = categoryService.findById(categoryId);
-
-
-//        if(category.isPresent()){
-//
-//            if ((imageFile != null) && (!imageFile.isEmpty())) {
-//
-//                imagePath = ImageUtil.saveImage(imageFile);
-//            }
-//
-//            product.setName(name);
-//            product.setDescription(description);
-//            product.setCategory(category.get());
-//            product.setPrice(price);
-//            product.setImagePath(imagePath);
-//
-//        }
-
-        //category.get().addProduct(product);
-
-       //productService.saveProduct(product);
-
         productService.saveProduct(name,description,categoryId,price,imageFile);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body("product inserted successfully");
 
     }
+
 
     @GetMapping("/findProduct/{id}")
     public ResponseEntity<ResponseProduct> findProductById(@PathVariable Long id){
@@ -89,6 +65,14 @@ public class ProductController {
                 .body(" product with "+id+" successfully DELETED ! ");
 
     }
+//    @GetMapping("findAllProducts")
+//    public  ResponseEntity<ResponseProduct> updateProduct(){
+//
+//        List<ResponseProduct> products = productService.getAllProduct();
+//
+//
+//        return new ResponseEntity.ok("");
+//    }
 
 
 

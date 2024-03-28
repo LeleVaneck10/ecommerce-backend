@@ -37,7 +37,6 @@ public class Product {
         this.imagePath = imagePath;
     }
 
-
     public Long getId() {
         return id;
     }

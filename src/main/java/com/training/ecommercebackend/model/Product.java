@@ -37,18 +37,6 @@ public class Product {
         this.imagePath = imagePath;
     }
 
-<<<<<<< HEAD
-    public Product(String name, String description, BigDecimal price, Category category, List<Image> images) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.images = images;
-    }
-=======
-
->>>>>>> 297c0ae ( add product with the image)
-
     public Long getId() {
         return id;
     }

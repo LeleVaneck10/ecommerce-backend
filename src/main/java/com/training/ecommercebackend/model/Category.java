@@ -1,7 +1,9 @@
 package com.training.ecommercebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,28 +13,19 @@ public class Category {
     private Long id;
     @Column(nullable = false)
     private String name;
-    private String description;
-    private String imageUrl;
-    @OneToMany(mappedBy = "category")
+
+    @OneToMany(mappedBy = "category",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
     private List<Product> products;
 
     public Category() {
     }
 
-    public Category(Long id, String name, String description, String imageUrl, List<Product> products) {
+    public Category(Long id, String name, List<Product> products) {
         this.id = id;
         this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
         this.products = products;
     }
 
-    public Category(String name, String description, String imageUrl, List<Product> products) {
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.products = products;
-    }
 
     public Long getId() {
         return id;
@@ -50,27 +43,23 @@ public class Category {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+
+    //-------------- convenient method for adding product ---------------------------------
+    public void addProduct(Product product){
+        if(products == null){
+            products = new ArrayList<>();
+        }
+        products.add(product);
+
+        //------------------ set a bidirectional link ------------------------------
+        product.setCategory(this);
     }
 }

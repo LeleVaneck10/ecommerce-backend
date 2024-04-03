@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +75,7 @@ public class ProductService {
     public ResponseProduct findById(long id) {
 
         ResponseProduct theProduct = new ResponseProduct();
+
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isPresent()){
@@ -83,6 +85,7 @@ public class ProductService {
             theProduct.setImagePath(product.get().getImagePath());
             theProduct.setCategory(product.get().getCategory().getName());
         }
+
         else {
             throw new ProductNotFoundExeption(" PRODUCT witch the "+id+" NOT FOUND !");
         }
@@ -108,21 +111,16 @@ public class ProductService {
 
     }
 
-    public void updateProduct() {
-        
-    }
-
-    public List<ResponseProduct> getAllProduct() throws ProductNotFoundExeption{
+    public List<ResponseProduct> getAllProduct(){
 
        List<Product> products = productRepository.findAll();
 
-       ResponseProduct responseProduct  = new ResponseProduct();
+       List<ResponseProduct> theProducts  = new ArrayList<ResponseProduct>() ;
 
-       List<ResponseProduct> theProducts = null ;
-
-       if (!products.isEmpty()){
+       if (!(products.isEmpty())){
 
            for (Product temp : products){
+               ResponseProduct responseProduct  = new ResponseProduct();
 
                responseProduct.setName(temp.getName());
                responseProduct.setDescription(temp.getDescription());
@@ -134,8 +132,8 @@ public class ProductService {
            }
 
        }else{
-           throw new ProductNotFoundExeption("product not found !");
 
+           throw new ProductNotFoundExeption("product not found !");
        }
 
        return  theProducts;

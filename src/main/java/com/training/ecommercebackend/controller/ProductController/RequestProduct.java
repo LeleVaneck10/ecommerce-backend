@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class RequestProduct {
     private String name;
-    private String desription;
+    private String description;
     private Long category;
     private BigDecimal price;
     private MultipartFile file;
@@ -16,7 +16,7 @@ public class RequestProduct {
 
     public RequestProduct(String name, String desription, Long category, BigDecimal price, MultipartFile file) {
         this.name = name;
-        this.desription = desription;
+        this.description = desription;
         this.category = category;
         this.price = price;
         this.file = file;
@@ -30,12 +30,12 @@ public class RequestProduct {
         this.name = name;
     }
 
-    public String getDesription() {
-        return desription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesription(String desription) {
-        this.desription = desription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getCategory() {

@@ -55,6 +55,7 @@ public class ProductController {
 
     }
 
+
     @DeleteMapping("/product/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) throws IOException {
 
@@ -65,14 +66,14 @@ public class ProductController {
                 .body(" product with "+id+" successfully DELETED ! ");
 
     }
-//    @GetMapping("findAllProducts")
-//    public  ResponseEntity<ResponseProduct> updateProduct(){
-//
-//        List<ResponseProduct> products = productService.getAllProduct();
-//
-//
-//        return new ResponseEntity.ok("");
-//    }
+    @GetMapping("/findAllProducts")
+    public  ResponseEntity<List<ResponseProduct>> updateProduct(){
+
+        List<ResponseProduct> products = productService.getAllProduct();
+
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(products);
+    }
 
 
 

@@ -75,6 +75,20 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.FOUND).body(products);
     }
 
+    @PostMapping("/updateProduct")
+    public ResponseEntity<ResponseProduct> update(@RequestParam("product") Long product,
+                                                  @RequestParam("name") String name,
+                                                  @RequestParam("description") String description,
+                                                  @RequestParam("price") BigDecimal price,
+                                                  @RequestParam("category") Long category,
+                                                  @RequestParam("image") MultipartFile image) throws IOException
+    {
+        ResponseProduct responce = new ResponseProduct();
 
+        Optional<Product> theProduct = productService.updateProduct(product,name,description,category,price,image);
+        responce = productService.setResponseProduct(responce,theProduct);
+
+        return   ResponseEntity.status(HttpStatus.OK).body(responce);
+    }
 
 }

@@ -40,6 +40,7 @@ public class ProductService {
     public void saveProduct(String name , String description , Long categoryId , BigDecimal price , MultipartFile imageFile) throws IOException {
 
         String imagePath = null;
+
         Product product = new Product();
 
         Optional<Category> theCategory =  categoryRepository.findById(categoryId);
@@ -138,4 +139,57 @@ public class ProductService {
 
        return  theProducts;
     }
+
+    public Optional<Product> updateProduct(Long id, String name, String description, Long categoryId , BigDecimal price , MultipartFile image) throws IOException{
+
+        String imagePath = null;
+
+        Optional<Product> theProduct = productRepository.findById(id);
+        Optional<Category> category = categoryRepository.findById(categoryId);
+
+
+        if (theProduct.isPresent() && category.isPresent()){
+
+            if((image != null) && (!image.isEmpty())){
+
+                ImageUtil.deleteFile(theProduct.get().getImagePath());
+                imagePath = ImageUtil.saveImage(image);
+            }
+
+            theProduct.get().setName(name);
+            theProduct.get().setDescription(description);
+            theProduct.get().setCategory(category.get());
+            theProduct.get().setPrice(price);
+
+            String productImage = theProduct.get().getImagePath();
+            productImage = (theProduct.get().getImagePath().equals(imagePath)) ? productImage : imagePath;
+
+            theProduct.get().setImagePath(productImage);
+
+            productRepository.save(theProduct.get());
+
+        }
+
+        else {
+
+            throw new ProductNotFoundExeption(" theProduct OR category not found can not update !");
+
+        }
+
+
+        return theProduct;
+    }
+
+    public ResponseProduct setResponseProduct(ResponseProduct responseProduct, Optional<Product> product) {
+        responseProduct.setName(product.get().getName());
+        responseProduct.setDescription(product.get().getDescription());
+        responseProduct.setPrice(product.get().getPrice());
+        responseProduct.setCategory(product.get().getCategory().getName());
+        responseProduct.setImagePath(product.get().getImagePath());
+
+        return responseProduct;
+
+    }
+
+
 }

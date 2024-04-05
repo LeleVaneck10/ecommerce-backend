@@ -56,7 +56,7 @@ public class ProductController {
     }
 
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) throws IOException {
 
         productService.deleteProductById(id);
@@ -66,6 +66,7 @@ public class ProductController {
                 .body(" product with "+id+" successfully DELETED ! ");
 
     }
+
     @GetMapping("/findAllProducts")
     public  ResponseEntity<List<ResponseProduct>> updateProduct(){
 
@@ -83,12 +84,14 @@ public class ProductController {
                                                   @RequestParam("category") Long category,
                                                   @RequestParam("image") MultipartFile image) throws IOException
     {
+
         ResponseProduct responce = new ResponseProduct();
 
         Optional<Product> theProduct = productService.updateProduct(product,name,description,category,price,image);
         responce = productService.setResponseProduct(responce,theProduct);
 
         return   ResponseEntity.status(HttpStatus.OK).body(responce);
+
     }
 
 }

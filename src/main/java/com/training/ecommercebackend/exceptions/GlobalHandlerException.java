@@ -20,4 +20,14 @@ public class GlobalHandlerException {
         return new ResponseEntity<>(error , HttpStatus.NOT_FOUND);
 
     }
+    @ExceptionHandler
+    public ResponseEntity<CategoryErrorResponse> categoryHandlerException(CategoryNotFoundException exc){
+
+        CategoryErrorResponse error = new CategoryErrorResponse();
+
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setMessage(exc.getMessage());
+
+        return  new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
 }

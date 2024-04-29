@@ -29,7 +29,7 @@ public class User implements UserDetails {
 
     @OneToOne
     @JoinColumn(name = "address_id")
-    private Address address;
+    private Adress address;
   
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Orders> orders;
